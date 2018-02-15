@@ -47,10 +47,10 @@ var server = http.createServer(function(request, response){
   else if (path == "/") {
     response.setHeader("Content-Type", "text/html; charset=utf-8")
     response.write(`<!DOCTYPE>\n<html>` + 
-      `<head><link rel="stylesheet" href="/style">` + 
+      `<head><link rel="stylesheet" href="/style.css">` + 
       `</head><body>` + 
       `<h1>你好 Node.js</h1>` +
-      `<script src="/script"></script>` +
+      `<script src="/main.js"></script>` +
       `</body></html>`)
     response.end()
   }
