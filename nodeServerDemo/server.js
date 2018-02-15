@@ -34,12 +34,12 @@ var server = http.createServer(function(request, response){
   console.log('得到 HTTP 路径\n' + path)
   console.log('查询字符串为\n' + query)
   console.log('不含查询字符串的路径为\n' + pathNoQuery)
-  if (path == "/style") {
+  if (path == "/style.css") {
     response.setHeader("Content-Type", "text/css; charset=utf-8")
     response.write(`body{background-color: #ddd;}h1{color: red;}`)
     response.end()
   } 
-  else if (path == "/script") {
+  else if (path == "/main.js") {
     response.setHeader("Content-Type", "text/javascript; charset=utf-8")
     response.write(`alert("这是JS执行的")`)
     response.end()
