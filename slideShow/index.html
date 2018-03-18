@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <title>JS Bin</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+      .div-c-imgs {
+        display:flex;
+        align-items:flex-start;
+        transition: all 0.5s;
+      }
+      .div-c-showSlideWindow {
+        width: 150px;
+        overflow:hidden;
+      }
+      #div-i-buttonGroup {
+        margin-top:10px;
+      }
+      #div-i-buttonGroup > span {
+        border: 1px solid red;
+      }
+      .span-c-activeBtn {
+        background-color:#58b2e6;
+        border: 1px solid #58b2e6!important;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="div-c-showSlideWindow">
+      <div class="div-c-imgs">
+        <img src="http://78.media.tumblr.com/unqiTqQtFl9203cocBt5X3gho1_400.jpg" alt="" width=150>
+        <img src="https://dspncdn.com/a1/media/692x/e9/de/93/e9de9380cb318134e029f213b6ff0ccb.jpg" alt="" width=150>
+        <img src="http://www.freedigitalphotos.net/blog/wp-content/uploads/2013/11/archie.jpg" alt="" width=150>
+        <img src="http://cialisoverthecounter.us/wp-content/uploads/2018/02/wedding-dresses-under-400-picture-wedding-dresses-and-bridal-gowns-under-400-uk-on-sale-300-x-400-pixels-2.jpeg" alt="" width=150>      
+      </div>
+    </div>
+    <div id="div-i-buttonGroup">
+      <span class="span-c-activeBtn">第一张</span>
+      <span>第二张</span>
+      <span>第三张</span>
+      <span>第四张</span>
+    </div>
+    <script>
+        var AUTO_PLAY_EVENT_ID
+        var AUTO_PLAY_INDEX = 0
+        var bindBtnClickEvent = () => {
+            $("#div-i-buttonGroup span").on("click", function() {
+                let transValue = -($(this).index() * 150)
+                $(".div-c-imgs").css({
+                    "transform": `translateX(${transValue}px)`
+                })
+                $(".span-c-activeBtn").removeClass("span-c-activeBtn")
+                $(this).addClass("span-c-activeBtn")
+                AUTO_PLAY_INDEX = $(this).index()
+            })
+        }
+
+        var autoPlay = () => {
+            AUTO_PLAY_EVENT_ID = setInterval(() => {
+                $("#div-i-buttonGroup span").eq(AUTO_PLAY_INDEX % 4).trigger("click")
+                AUTO_PLAY_INDEX++
+                if (AUTO_PLAY_INDEX === 4) {
+                    AUTO_PLAY_INDEX = 0
+                }
+            }, 1000)
+        }
+
+        var bindWindowMouseEnterEvent = () => {
+            $(".div-c-showSlideWindow").on("mouseenter", function(event) {
+                clearInterval(AUTO_PLAY_EVENT_ID)
+            })
+        }
+
+        var bindWindowMouseLeaveEvent = () => {
+            $(".div-c-showSlideWindow").on("mouseleave", function(event) {
+                autoPlay()
+            })
+        }
+
+        var __main = () => {
+            bindBtnClickEvent()
+            autoPlay()
+            bindWindowMouseEnterEvent()
+            bindWindowMouseLeaveEvent()
+        }
+
+        __main()
+    </script>
+  </body>
+  </html>
