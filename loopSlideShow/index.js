@@ -31,7 +31,7 @@ var autoPlay = () => {
         hideCurrentImg(transNumToIndex(AUTO_PLAY_INDEX))
         showNextImg(transNumToIndex(AUTO_PLAY_INDEX + 1))     
         resetAutoIndex()
-    }, 3000)
+    }, 2000)
 }
 
 var resetAutoIndex = () => {
