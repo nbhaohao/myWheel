@@ -16,14 +16,13 @@
             position: absolute;
             left: 100%;
             top: 50%;
-            border: 1px solid red;
             transform: translateY(-50%);
             box-shadow: 0 5px 10px rgba(0,0,0,.2);
             border:1px solid rgba(0,0,0,.2);
             border-radius:6px;
             margin-left: 16px;
             opacity: 0;
-            display: none;
+            visibility: hidden;
             transition: all 0.3s;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
@@ -43,6 +42,7 @@
         }
         .div-c-Popover-active {
             opacity: 1;
+            visibility: visible;
         }
         .div-c-Popover::after {
             border: 10px solid;
@@ -78,44 +78,38 @@
         </div>
     </div>
     <script>
-        var showPopover = ($myPopover) => {
-            $myPopover.css("display", "block")
-            setTimeout(() => {
-                $myPopover.addClass("div-c-Popover-active")  
-            }, 10)  
-        }
+    var showPopover = ($myPopover) => {
+        $myPopover.addClass("div-c-Popover-active")  
+    }
 
-        var hidePopover = ($myPopover) => {
-            $myPopover.removeClass("div-c-Popover-active")
-            setTimeout(() => {
-                $myPopover.css("display", "none")
-            }, 300)    
-        }
+    var hidePopover = ($myPopover) => {
+        $myPopover.removeClass("div-c-Popover-active")
+    }
 
-        var bindBtnEvent = () => {
-            $("#button-i-showPopover").on("click", function(event) {
-                let self = event.currentTarget
-                let $myPopover = $(self).parent().find(".div-c-Popover")
-                if ($myPopover.hasClass("div-c-Popover-active")) {
-                    hidePopover($myPopover)
-                } else {
-                    showPopover($myPopover)
-                    event.stopPropagation()
-                    $(document).one("click", function() {
-                        hidePopover($myPopover)
-                    })                    
-                }
-            })
-            $(".div-c-Popover").on("click", function(event) {
-                event.stopPropagation()
-            })
+    var bindBtnEvent = () => {
+        $("#button-i-showPopover").on("click", function(event) {
+        let self = event.currentTarget
+        let $myPopover = $(self).parent().find(".div-c-Popover")
+        if ($myPopover.hasClass("div-c-Popover-active")) {
+            hidePopover($myPopover)
+        } else {
+            showPopover($myPopover)
+            event.stopPropagation()
+            $(document).one("click", function() {
+            hidePopover($myPopover)
+            })                    
         }
-        
-        var __main = () => {
-            bindBtnEvent()
-        }
+        })
+        $(".div-c-Popover").on("click", function(event) {
+        event.stopPropagation()
+        })
+    }
 
-        __main()
+    var __main = () => {
+        bindBtnEvent()
+    }
+
+    __main()
     </script>
 </body>
 </html>

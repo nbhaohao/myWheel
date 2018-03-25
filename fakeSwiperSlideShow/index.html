@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>FakeSwiperSlideShow</title>
+    <script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        .wrapper {
+            margin: 0 auto;
+            width: 920px;
+            border: 1px solid #e4e4e4;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;                 
+        }
+        .slideWrapper {
+            overflow: hidden;
+            width: 100%;
+        }
+        .slideWrapper > .imgs {
+            display: flex;
+            width: 920px;
+            transition: all 0.3s;
+        }
+        .wrapper > .buttonGroup {
+            display: flex;
+            justify-content: center;
+            background: linear-gradient(to bottom, #f9f9f9 0%,#ededed 100%);
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;            
+        }
+        .buttonGroup > .div-icon-wrapper {
+            border: 1px solid #fbfbfb;
+            padding: 7px 18px 1px;
+            cursor: pointer;
+            border-bottom: none;
+            position: relative;
+        }
+        .div-icon-wrapper-active {
+            background: linear-gradient(to bottom, #b2b2b2 0%,#efefef 100%);
+        }
+        .div-icon-wrapper-active::after {
+            content: "";
+            border: 6px solid;
+            border-color: white transparent transparent transparent;
+            position: absolute;
+            width: 0;
+            height: 0;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .div-icon-wrapper-active::before {
+            content: "";
+            border: 7px solid;
+            border-color: #8a8a8a transparent transparent transparent;
+            position: absolute;
+            width: 0;
+            height: 0;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }        
+        .buttonGroup > .div-icon-wrapper:hover {
+            background-color: #f1eeee;
+        }
+        
+        .buttonGroup > .div-icon-wrapper:first-child {
+            padding-left: 14px;
+            padding-right: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="slideWrapper">
+            <div class="imgs">
+                <img src="./imgs/1.jpg" width="920" height="400" alt="">
+                <img src="./imgs/2.jpg" width="920" height="400" alt="">
+                <img src="./imgs/3.jpg" width="920" height="400" alt="">
+                <img src="./imgs/4.jpg" width="920" height="400" alt="">
+            </div>
+        </div>
+        <div class="buttonGroup">
+            <div class="div-icon-wrapper div-icon-wrapper-active">
+                <img src="./imgs/icon1.png" alt="">
+            </div>
+            <div class="div-icon-wrapper">
+                <img src="./imgs/icon2.png" alt="">
+            </div>
+            <div class="div-icon-wrapper">
+                <img src="./imgs/icon3.png"  alt="">
+            </div>   
+            <div class="div-icon-wrapper">
+                <img src="./imgs/icon4.png" alt="">
+            </div> 
+        </div>
+    </div>
+    <script>
+        var bindBtnClickEvent = () => {
+            $(".buttonGroup .div-icon-wrapper").on("click", function(event) {
+                let $self = $(event.currentTarget)
+                $(".div-icon-wrapper-active").removeClass("div-icon-wrapper-active")
+                $self.addClass("div-icon-wrapper-active")
+                let index = $self.index()
+                $(".wrapper .imgs").css({
+                    "transform": `translateX(-${index * 920}px)`
+                })
+            })
+        }
+
+        var makeFakeFirstAndLastImg = () => {
+            
+        }
+
+        var __main = () => {
+            makeFakeFirstAndLastImg()
+            bindBtnClickEvent()
+        }
+
+        __main()
+    </script>
+</body>
+</html>
