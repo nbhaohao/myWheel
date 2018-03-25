@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>FakeSwiperSlideShow</title>
     <script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//at.alicdn.com/t/font_604242_4m764rbpqbnmte29.js"></script>
     <style>
         .wrapper {
             margin: 0 auto;
@@ -11,6 +12,12 @@
             border: 1px solid #e4e4e4;
             border-bottom-left-radius: 4px;
             border-bottom-right-radius: 4px;                 
+        }
+        .icon {
+            width: 1em; height: 1em;
+            vertical-align: -0.15em;
+            fill: currentColor;
+            overflow: hidden;
         }
         .slideWrapper {
             overflow: hidden;
@@ -68,6 +75,18 @@
             padding-left: 14px;
             padding-right: 14px;
         }
+        .buttonGroup .div-c-svgWrapper {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .buttonGroup .div-c-svgWrapper > svg {
+            width: 24px;
+            height: 24px;
+        }
+        .div-icon-wrapper > img {
+            user-select: none;
+        }
     </style>
 </head>
 <body>
@@ -81,6 +100,11 @@
             </div>
         </div>
         <div class="buttonGroup">
+            <div style="margin-right:auto;" class="div-c-svgWrapper" data-offset="-1">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-prev"></use>
+                </svg>
+            </div>
             <div class="div-icon-wrapper div-icon-wrapper-active">
                 <img src="./imgs/icon1.png" alt="">
             </div>
@@ -93,28 +117,116 @@
             <div class="div-icon-wrapper">
                 <img src="./imgs/icon4.png" alt="">
             </div> 
+            <div style="margin-left:auto;" class="div-c-svgWrapper" data-offset="1">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-next"></use>
+                </svg>
+            </div>
         </div>
     </div>
     <script>
+        let allBtnsNum = $('.buttonGroup').find(".div-icon-wrapper").length - 1
+        let $slideImgs = $(".wrapper .imgs")
+        let currentIndex = 0        
+        let slideIntervalId
+        var highLightBtn = (index) => {
+            $(".div-icon-wrapper-active").removeClass("div-icon-wrapper-active")
+            $('.buttonGroup').find(".div-icon-wrapper").eq(index).addClass("div-icon-wrapper-active")
+        }
+
+        var goToSpecifyIndex = (index) => {
+            if (index > allBtnsNum) {
+                index = 0
+            } 
+            else if (index < 0) {
+                index = allBtnsNum
+            }
+            highLightBtn(index)
+            // 说明用户想从第 0 张直接调到最后一张
+            if (currentIndex === 0 && index === allBtnsNum) {
+                $slideImgs.css({
+                    "transform": `translateX(0px)`
+                })
+                $slideImgs.one("transitionend", function() {
+                    $slideImgs.hide().offset()
+                    $slideImgs.css({transform:`translateX(${-(allBtnsNum + 1) * 920}px)`}).show() 
+                })
+            } 
+            // 说明用户想从最后一张直接到第 0 张
+            else if (currentIndex === allBtnsNum && index === 0) {
+                $slideImgs.css({
+                    "transform": `translateX(${-(allBtnsNum + 2) * 920}px)`
+                })
+                $slideImgs.one("transitionend", function() {
+                    $slideImgs.hide().offset()
+                    $slideImgs.css({transform:`translateX(-920px)`}).show() 
+                })                    
+            }
+            else {
+                $slideImgs.css({
+                    "transform": `translateX(-${(index + 1) * 920}px)`
+                })
+            }
+            currentIndex = index
+        }
+
         var bindBtnClickEvent = () => {
             $(".buttonGroup .div-icon-wrapper").on("click", function(event) {
                 let $self = $(event.currentTarget)
-                $(".div-icon-wrapper-active").removeClass("div-icon-wrapper-active")
-                $self.addClass("div-icon-wrapper-active")
-                let index = $self.index()
-                $(".wrapper .imgs").css({
-                    "transform": `translateX(-${index * 920}px)`
-                })
+                let index = $(".buttonGroup .div-icon-wrapper").index($self)
+                goToSpecifyIndex(index)
             })
         }
 
         var makeFakeFirstAndLastImg = () => {
-            
+            let $allImgs = $slideImgs.find("img")
+            let $fakeFirst = $allImgs.eq(0).clone(true)
+            let $fakeLast = $allImgs.eq($allImgs.length - 1).clone(true)
+            $slideImgs.append($fakeFirst)
+            $slideImgs.prepend($fakeLast)
+            $slideImgs.css({transform:"translateX(-920px)"})
+        }
+
+        var autoPlay = () => {
+            slideIntervalId = setInterval(() => {
+                goToSpecifyIndex(currentIndex + 1)
+            }, 1000)
+        
+        }
+
+        var bindWrapperMouseEvent = () => {
+            $(".wrapper").on("mouseenter", function() {
+                clearInterval(slideIntervalId)
+            })
+            $(".wrapper").on("mouseleave", function() {
+                autoPlay()
+            })    
+        }
+
+        var bindNextPrevBtnEvent = () => {
+            $(".div-c-svgWrapper").on("click", function(event) {
+                let offset = Number(event.currentTarget.dataset.offset)
+                goToSpecifyIndex(currentIndex + offset)
+            })
+        }
+
+        var listenerUserChangeTab = () => {
+            document.addEventListener("visibilitychange", function() {
+                if(document.visibilityState === "hidden") {
+                    clearInterval(slideIntervalId)
+                    return
+                }
+                autoPlay()
+            })
         }
 
         var __main = () => {
             makeFakeFirstAndLastImg()
             bindBtnClickEvent()
+            autoPlay()
+            bindWrapperMouseEvent()
+            bindNextPrevBtnEvent()
+            listenerUserChangeTab()
         }
 
         __main()
