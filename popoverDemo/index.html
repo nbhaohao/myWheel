@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>Learn Bootstrap Popover</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        * {margin: 0;padding: 0;}
+        .div-c-Popover-wrapper {
+            margin-top: 40px;
+            margin-left: 16px;
+            position: relative;
+            display: inline-block;
+        }
+        .div-c-Popover {
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            border: 1px solid red;
+            transform: translateY(-50%);
+            box-shadow: 0 5px 10px rgba(0,0,0,.2);
+            border:1px solid rgba(0,0,0,.2);
+            border-radius:6px;
+            margin-left: 16px;
+            opacity: 0;
+            display: none;
+            transition: all 0.3s;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .div-c-Popover > h3 {
+            white-space: nowrap;
+            padding: 0px 14px;
+            background-color: #f7f7f7;
+            border-bottom:1px solid #ebebeb;
+            font-weight: 500;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            font-size: 14px;
+        }
+        .div-c-Popover > p {
+            padding: 13px 14px;
+        }
+        .div-c-Popover-active {
+            opacity: 1;
+        }
+        .div-c-Popover::after {
+            border: 10px solid;
+            content: "";
+            height: 0;
+            width: 0;
+            position: absolute;
+            right: 99%;
+            top: 50%;
+            transform: translateY(-50%);
+            border-color: transparent white transparent transparent ;            
+        }
+        .div-c-Popover::before {
+            border: 10px solid;
+            content: "";
+            height: 0;
+            width: 0;
+            position: absolute;
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            border-color: transparent rgba(0,0,0,.2) transparent transparent ;               
+        }
+    </style>
+</head>
+<body>
+    <div class="div-c-Popover-wrapper">
+        <button id="button-i-showPopover">显示 Popover</button>
+        <div class="div-c-Popover">
+            <h3>哈哈哈哈哈哈</h3>
+            <p>我是内容</p>
+            <input type="checkbox" name="" id="">
+        </div>
+    </div>
+    <script>
+        var showPopover = ($myPopover) => {
+            $myPopover.css("display", "block")
+            setTimeout(() => {
+                $myPopover.addClass("div-c-Popover-active")  
+            }, 10)  
+        }
+
+        var hidePopover = ($myPopover) => {
+            $myPopover.removeClass("div-c-Popover-active")
+            setTimeout(() => {
+                $myPopover.css("display", "none")
+            }, 300)    
+        }
+
+        var bindBtnEvent = () => {
+            $("#button-i-showPopover").on("click", function(event) {
+                let self = event.currentTarget
+                let $myPopover = $(self).parent().find(".div-c-Popover")
+                if ($myPopover.hasClass("div-c-Popover-active")) {
+                    hidePopover($myPopover)
+                } else {
+                    showPopover($myPopover)
+                    event.stopPropagation()
+                    $(document).one("click", function() {
+                        hidePopover($myPopover)
+                    })                    
+                }
+            })
+            $(".div-c-Popover").on("click", function(event) {
+                event.stopPropagation()
+            })
+        }
+        
+        var __main = () => {
+            bindBtnEvent()
+        }
+
+        __main()
+    </script>
+</body>
+</html>
