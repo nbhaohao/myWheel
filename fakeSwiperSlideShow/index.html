@@ -212,11 +212,10 @@
 
         var listenerUserChangeTab = () => {
             document.addEventListener("visibilitychange", function() {
-                if(document.visibilityState === "hidden") {
-                    clearInterval(slideIntervalId)
-                    return
+                clearInterval(slideIntervalId)
+                if(document.visibilityState !== "hidden") {
+                    autoPlay()
                 }
-                autoPlay()
             })
         }
 
