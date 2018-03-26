@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    <span>我的余额是：<span id="money">&&&money&&&</span></span>
+    <button id="daqianBtn">付款一元</button>
+    <script>
+        $("#daqianBtn").on("click", function() {
+            let leaveMoney = $("#money")
+            leaveMoney.text(parseInt(leaveMoney.text()) - 1)
+        })
+    </script>
+</body>
+</html>

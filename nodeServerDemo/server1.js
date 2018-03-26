@@ -46,14 +46,22 @@ var server = http.createServer(function(request, response){
   }
   else if (path == "/") {
     response.setHeader("Content-Type", "text/html; charset=utf-8")
-    response.write(`<!DOCTYPE>\n<html>` + 
-      `<head><link rel="stylesheet" href="/style.css">` + 
-      `</head><body>` + 
-      `<h1>你好 Node.js</h1>` +
-      `<script src="/main.js"></script>` +
-      `</body></html>`)
+    let html = fs.readFileSync("./index1.html", "utf8")
+    let amount = fs.readFileSync("./db", "utf8")
+    html = html.replace("&&&money&&&", amount)
+    response.write(html)
+    response.statusCode = 200
     response.end()
   }
+  else if (path == "/pay") {
+    response.setHeader("Content-Type", "text/html; charset=utf-8")
+    let amount = fs.readFileSync("./db", "utf8")
+    amount -= 1
+    fs.writeFileSync("./db", amount, "utf8") 
+    response.write("success")
+    response.statusCode = 200
+    response.end()
+  }  
   else {
     response.statusCode = 404
     response.end()
