@@ -46,7 +46,7 @@ var server = http.createServer(function(request, response){
   }
   else if (path == "/") {
     response.setHeader("Content-Type", "text/html; charset=utf-8")
-    let html = fs.readFileSync("./index2.html", "utf8")
+    let html = fs.readFileSync("./index3.html", "utf8")
     let amount = fs.readFileSync("./db", "utf8")
     html = html.replace("&&&money&&&", amount)
     response.write(html)
@@ -54,17 +54,16 @@ var server = http.createServer(function(request, response){
     response.end()
   }
   else if (path == "/pay") {
-    response.setHeader("Content-Type", "image/jpeg")
+    response.setHeader("Content-Type", "text/javascript; charset=utf-8")
     if (Math.random() > 0.5) {
       let amount = fs.readFileSync("./db", "utf8")
       amount -= 1
       fs.writeFileSync("./db", amount, "utf8")
-      let img = fs.readFileSync("./5.jpg", "binary") 
       response.statusCode = 200
-      response.write(img, "binary")
+      response.write("alert('哈哈哈,成功')")
     } else {
       response.statusCode = 400
-      response.write("")
+      response.write("alert('呵呵呵，失败')")
     }
     response.end()
   }  
