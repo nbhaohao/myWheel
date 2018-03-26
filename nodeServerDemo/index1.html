@@ -6,13 +6,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-    <span>我的余额是：<span id="money">&&&money&&&</span></span>
-    <button id="daqianBtn">付款一元</button>
+    <form id="form-i-pay" target="result" action="/pay" method="POST">
+        <span>我的余额是：<span id="money">&&&money&&&</span></span>
+        <input type="submit" value="付款一元">
+    </form>
+    <iframe name="result" width="200" height="200" frameborder="0"></iframe>
     <script>
-        $("#daqianBtn").on("click", function() {
-            let leaveMoney = $("#money")
-            leaveMoney.text(parseInt(leaveMoney.text()) - 1)
-        })
+        // $("#daqianBtn").on("click", function() {
+        //     let leaveMoney = $("#money")
+        //     leaveMoney.text(parseInt(leaveMoney.text()) - 1)
+        // })
     </script>
 </body>
 </html>
