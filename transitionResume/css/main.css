@@ -1,0 +1,5 @@
+* {padding: 0; margin: 0; box-sizing: border-box;}
+.token.property, .token.comment, .token.selector, .token.punctuation {
+    color: black;
+}
+.main {font-size: 16px;}
