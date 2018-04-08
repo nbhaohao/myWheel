@@ -1,0 +1,82 @@
+@keyframes jump {
+    0% {
+        transform: translateX(-50%) translateY(-48%) scale(0.6, 0.6);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-58%) scale(0.6, 0.6);
+    }             
+    100% {
+        transform: translateX(-50%) translateY(-50%) scale(0.6, 0.6);
+    }            
+}
+@keyframes handLeft {
+    0% {
+        transform: rotate(45deg);
+    }
+    50% {
+        transform: rotate(15deg);
+    }             
+    100% {
+        transform: rotate(25deg);
+    }            
+}
+@keyframes handRight {
+    0% {
+        transform: rotate(-45deg);
+    }
+    50% {
+        transform: rotate(-15deg);
+    }             
+    100% {
+        transform: rotate(-25deg);
+    }                     
+}                     
+* {margin: 0;padding: 0;}
+.show {flex-grow: 1;transition: all 0.5s;position: relative;}
+body {
+    height: 100vh;
+}
+.code {overflow: auto;}
+.icon {
+    width: 1em; height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
+.toolsBtn {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-60px);
+    top:12px;
+    cursor: pointer;
+}
+.toolsBtn .div-c-btnGroup {
+    display: none;
+    border: 1px solid #dddddd;
+    padding: 10px;
+    border-radius: 8px;
+    transform: translateX(-100%);    
+    background-color: white;
+}
+.toolsBtn.active .div-c-btnGroup {
+    display: flex;
+}
+.div-c-btnGroup {display:flex;flex-direction:column;}
+
+.toolsBtn > .div-c-btnGroup button {
+    border: 1px solid #f1f1f1;
+    outline: none;
+    padding: 4px 8px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    background-color: white;
+}   
+.toolsBtn > .div-c-btnGroup button.activeBtn {
+    border-color: #3699e8;
+    color: white;
+    background-color: #3699e8;
+}
+.toolsBtn > svg {
+    width: 40px;
+    height: 40px;
+}
